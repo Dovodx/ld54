@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://l2fjjpmc07vb"]
+
+[ext_resource type="PackedScene" uid="uid://dtdes2065rnsq" path="res://Models/barrier.blend" id="1_gi10x"]
+[ext_resource type="Shader" path="res://Shaders and Materials/barrier_shader.gdshader" id="2_x22xl"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1df6a"]
+render_priority = 0
+shader = ExtResource("2_x22xl")
+
+[node name="barrier model" instance=ExtResource("1_gi10x")]
+
+[node name="Icosphere" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_1df6a")

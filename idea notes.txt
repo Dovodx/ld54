@@ -4,16 +4,21 @@ must-have todos:
 -make enemy
     ✔basic movement
     ✔death
-    -damage player
+    ✔damage player
+    -model
+    -proper death effects
+    -improved damage (repeat on continued contact, timeout, etc.)
+    ✔spawn enemies automatically
+    -KRABS????
 ✔make shooting
 -badass rock music
 -crunchy punchy sound effects
 -HUD with terminator-esque theme
     ✔reticle
-    -health
-    -show what gun you're using (maybe not top priority)
--basic viewmodel
--limit play area with big shieldy thing
+    ✔health
+    -show what gun you're using (low priority)
+✔basic viewmodel
+✔HOOHOO YOU THINK A BARRIER WILL WORK
 -interpolation!!
 -nice font
 -GUNS
@@ -22,7 +27,8 @@ must-have todos:
         ✔sound
         ✔visual effect (kinda crappy, but will do for now)
         ✔functional code
-        -viewmodel
+        ✔viewmodel
+        ✔shot animation
     -machine gun
     -fucking PIRATE CANNON YOHOHO MOTHERFUCKER
     -light of judgement (pointy light then go boom haha zamasu)
@@ -32,10 +38,13 @@ must-have todos:
     -horizontal melee lunge attack
 
 ideas/nice to haves:
--animated viewmodel
+✔animated viewmodel
 -main menu
 -options menu
 -volume control
+-make momentum stay when in the air (make it not work the same as moving on the ground)
+
+dream on lmao
 -limited space for upgrades (3 slots)
     -upgrade ideas:
         -laser eyes

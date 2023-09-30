@@ -1,11 +1,22 @@
 extends CharacterBody3D
 
+var maxHealth = 100.0
+var health = 100.0
+@export var healthbar: ProgressBar
+
 const SPEED = 10.0
 const JUMP_VELOCITY = 7
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+@onready var animationPlayer := $AnimationPlayer
+
 @onready var camera := $neck/Camera3D
 @onready var neck := $neck
+
+func _ready():
+	healthbar = get_node("//root/arena/HUD/healthbar")
+	healthbar.max_value = maxHealth
+	healthbar.value = health
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
@@ -16,21 +27,23 @@ func _unhandled_input(event):
 		if event is InputEventMouseMotion:
 			neck.rotate_y(-event.relative.x * 0.001)
 			camera.rotate_x(-event.relative.y * 0.001)
-			camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-90), deg_to_rad(90))
+			camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-89), deg_to_rad(89))
 
 func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	
 	#Disable all 1-frame colliders
+	#TODO: possibly change to use projectiles instead of big hitscan
 	$"neck/Camera3D/shotgun/shotgun area/collider".disabled = true
 	
-	#TODO: timer to limit firerate
 	if Input.is_action_just_pressed("fire") && $"neck/Camera3D/shotgun/cooldown timer".is_stopped():
 		#TODO: logic for which gun you have selected (if there's time for more than one)
 		$"neck/Camera3D/shotgun/shotgun area/collider".disabled = false
 		$"neck/Camera3D/shotgun/fire sound".play()
 		$"neck/Camera3D/shotgun/particles".restart()
+		animationPlayer.stop()
+		animationPlayer.play("shotgun_fire")
 		$"neck/Camera3D/shotgun/cooldown timer".start()
 
 	if Input.is_action_just_pressed("jump") and is_on_floor():
@@ -46,3 +59,7 @@ func _physics_process(delta):
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
+
+func take_damage(amount):
+	health -= amount
+	healthbar.value = health

@@ -4,6 +4,8 @@ extends RigidBody3D
 @export var speed = 20.0
 var player: Node3D
 
+#TODO: repeating contact damage/attack animation
+
 func _ready():
 	player = get_tree().get_nodes_in_group("player")[0]
 

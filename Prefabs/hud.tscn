@@ -1,11 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://bo153vm1kdfnp"]
+[gd_scene load_steps=5 format=3 uid="uid://bo153vm1kdfnp"]
 
 [ext_resource type="Texture2D" uid="uid://cgsjitl6iikqp" path="res://Textures/reticle.png" id="1_bfx0v"]
+[ext_resource type="Theme" uid="uid://da5nolxjbph02" path="res://ui_theme.tres" id="2_8a2yb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xwv4s"]
+bg_color = Color(0.572549, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_32vxx"]
+bg_color = Color(0.78125, 0.09375, 0.09375, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.8, 0.8, 0)
 
 [node name="HUD" type="CanvasLayer"]
 follow_viewport_enabled = true
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="reticle" type="TextureRect" parent="."]
 texture_filter = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -21,3 +33,19 @@ grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("1_bfx0v")
+stretch_mode = 3
+
+[node name="healthbar" type="ProgressBar" parent="."]
+texture_filter = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -27.0
+offset_right = 190.0
+grow_vertical = 0
+theme = ExtResource("2_8a2yb")
+theme_override_styles/background = SubResource("StyleBoxFlat_xwv4s")
+theme_override_styles/fill = SubResource("StyleBoxFlat_32vxx")
+step = 1.0
+value = 100.0
+show_percentage = false

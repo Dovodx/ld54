@@ -1,17 +1,84 @@
-[gd_scene load_steps=14 format=3 uid="uid://bnadr2wupwf3b"]
+[gd_scene load_steps=23 format=3 uid="uid://bnadr2wupwf3b"]
 
 [ext_resource type="Environment" uid="uid://d02v4vbgt2bgg" path="res://Shaders and Materials/arena environment.tres" id="1_2xcnf"]
 [ext_resource type="Material" uid="uid://dxiegiwkwigjq" path="res://Shaders and Materials/floor material.tres" id="2_ii6ax"]
+[ext_resource type="Script" path="res://Scripts/HurtboxScript.gd" id="3_8btug"]
 [ext_resource type="Script" path="res://Scripts/PlayerScript.gd" id="3_bypft"]
 [ext_resource type="Script" path="res://Scripts/HitboxScript.gd" id="3_hyht0"]
 [ext_resource type="PackedScene" uid="uid://bo153vm1kdfnp" path="res://Prefabs/hud.tscn" id="4_rh0s4"]
 [ext_resource type="AudioStream" uid="uid://bj3u0xd56fqxt" path="res://Sounds/shotgun fire.wav" id="4_svwow"]
-[ext_resource type="PackedScene" uid="uid://bp31amq5hdmds" path="res://Prefabs/enemy.tscn" id="6_j374i"]
+[ext_resource type="PackedScene" uid="uid://cromwx6etg4pu" path="res://Models/shotgun model.tscn" id="6_1l23g"]
+[ext_resource type="PackedScene" uid="uid://l2fjjpmc07vb" path="res://Models/barrier_model.tscn" id="9_yheiy"]
+[ext_resource type="Script" path="res://Scripts/SpawnerScript.gd" id="10_bb77x"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_aqfra"]
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_p84n2"]
+
+[sub_resource type="Animation" id="Animation_gitgn"]
+resource_name = "shotgun_fire"
+length = 0.750002
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("neck/Camera3D/shotgun/shotgun model:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.733333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.125, -0.26, -0.435), Vector3(0.125, -0.215, -0.34), Vector3(0.125, -0.26, -0.435)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("neck/Camera3D/shotgun/shotgun model:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.733333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.200713, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_6c7gm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("neck/Camera3D/shotgun/shotgun model:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.125, -0.26, -0.435)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("neck/Camera3D/shotgun/shotgun model:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b2d6a"]
+_data = {
+"RESET": SubResource("Animation_6c7gm"),
+"shotgun_fire": SubResource("Animation_gitgn")
+}
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_cnsfv"]
-height = 15.0
+height = 30.0
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wtump"]
 emission_shape = 3
@@ -34,7 +101,13 @@ radial_segments = 4
 rings = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_la4os"]
-size = Vector3(100, 1, 100)
+size = Vector3(150, 1, 150)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pa7ao"]
+size = Vector3(1, 150, 150)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_yxkvu"]
+data = PackedVector3Array(0, -5, 0, -0.8123, -4.2533, 2.5, 2.1266, -4.2533, 1.5451, 3.618, -2.2361, 2.6286, 4.2532, -2.6287, 0, 2.1266, -4.2533, 1.5451, 0, -5, 0, -2.6286, -4.2533, 0, -0.8123, -4.2533, 2.5, 0, -5, 0, -0.8123, -4.2533, -2.5, -2.6286, -4.2533, 0, 0, -5, 0, 2.1266, -4.2533, -1.5451, -0.8123, -4.2533, -2.5, 3.618, -2.2361, 2.6286, 4.7553, 0, 1.5451, 4.2532, -2.6287, 0, -1.3819, -2.2361, 4.2532, 0, 0, 5, 1.3143, -2.6287, 4.0451, -4.4721, -2.2361, 0, -4.7553, 0, 1.5451, -3.4409, -2.6287, 2.5, -1.3819, -2.2361, -4.2532, -2.9389, 0, -4.0451, -3.4409, -2.6287, -2.5, 3.618, -2.2361, -2.6286, 2.9389, 0, -4.0451, 1.3143, -2.6287, -4.0451, 3.618, -2.2361, 2.6286, 2.9389, 0, 4.0451, 4.7553, 0, 1.5451, -1.3819, -2.2361, 4.2532, -2.9389, 0, 4.0451, 0, 0, 5, -4.4721, -2.2361, 0, -4.7553, 0, -1.5451, -4.7553, 0, 1.5451, -1.3819, -2.2361, -4.2532, 0, 0, -5, -2.9389, 0, -4.0451, 3.618, -2.2361, -2.6286, 4.7553, 0, -1.5451, 2.9389, 0, -4.0451, 1.3819, 2.2361, 4.2532, 0.8123, 4.2533, 2.5, 3.4409, 2.6287, 2.5, -3.618, 2.2361, 2.6286, -2.1266, 4.2533, 1.5451, -1.3143, 2.6287, 4.0451, -3.618, 2.2361, -2.6286, -2.1266, 4.2533, -1.5451, -4.2532, 2.6287, 0, 1.3819, 2.2361, -4.2532, 0.8123, 4.2533, -2.5, -1.3143, 2.6287, -4.0451, 4.4721, 2.2361, 0, 2.6286, 4.2533, 0, 3.4409, 2.6287, -2.5, 2.6286, 4.2533, 0, 0, 5, 0, 0.8123, 4.2533, -2.5, 2.6286, 4.2533, 0, 0.8123, 4.2533, -2.5, 3.4409, 2.6287, -2.5, 3.4409, 2.6287, -2.5, 0.8123, 4.2533, -2.5, 1.3819, 2.2361, -4.2532, 0.8123, 4.2533, -2.5, 0, 5, 0, -2.1266, 4.2533, -1.5451, 0.8123, 4.2533, -2.5, -2.1266, 4.2533, -1.5451, -1.3143, 2.6287, -4.0451, -1.3143, 2.6287, -4.0451, -2.1266, 4.2533, -1.5451, -3.618, 2.2361, -2.6286, -2.1266, 4.2533, -1.5451, 0, 5, 0, -2.1266, 4.2533, 1.5451, -2.1266, 4.2533, -1.5451, -2.1266, 4.2533, 1.5451, -4.2532, 2.6287, 0, -4.2532, 2.6287, 0, -2.1266, 4.2533, 1.5451, -3.618, 2.2361, 2.6286, -2.1266, 4.2533, 1.5451, 0, 5, 0, 0.8123, 4.2533, 2.5, -2.1266, 4.2533, 1.5451, 0.8123, 4.2533, 2.5, -1.3143, 2.6287, 4.0451, -1.3143, 2.6287, 4.0451, 0.8123, 4.2533, 2.5, 1.3819, 2.2361, 4.2532, 0.8123, 4.2533, 2.5, 0, 5, 0, 2.6286, 4.2533, 0, 0.8123, 4.2533, 2.5, 2.6286, 4.2533, 0, 3.4409, 2.6287, 2.5, 3.4409, 2.6287, 2.5, 2.6286, 4.2533, 0, 4.4721, 2.2361, 0, 4.7553, 0, -1.5451, 4.4721, 2.2361, 0, 3.4409, 2.6287, -2.5, 4.7553, 0, -1.5451, 3.4409, 2.6287, -2.5, 2.9389, 0, -4.0451, 2.9389, 0, -4.0451, 3.4409, 2.6287, -2.5, 1.3819, 2.2361, -4.2532, 0, 0, -5, 1.3819, 2.2361, -4.2532, -1.3143, 2.6287, -4.0451, 0, 0, -5, -1.3143, 2.6287, -4.0451, -2.9389, 0, -4.0451, -2.9389, 0, -4.0451, -1.3143, 2.6287, -4.0451, -3.618, 2.2361, -2.6286, -4.7553, 0, -1.5451, -3.618, 2.2361, -2.6286, -4.2532, 2.6287, 0, -4.7553, 0, -1.5451, -4.2532, 2.6287, 0, -4.7553, 0, 1.5451, -4.7553, 0, 1.5451, -4.2532, 2.6287, 0, -3.618, 2.2361, 2.6286, -2.9389, 0, 4.0451, -3.618, 2.2361, 2.6286, -1.3143, 2.6287, 4.0451, -2.9389, 0, 4.0451, -1.3143, 2.6287, 4.0451, 0, 0, 5, 0, 0, 5, -1.3143, 2.6287, 4.0451, 1.3819, 2.2361, 4.2532, 2.9389, 0, 4.0451, 1.3819, 2.2361, 4.2532, 3.4409, 2.6287, 2.5, 2.9389, 0, 4.0451, 3.4409, 2.6287, 2.5, 4.7553, 0, 1.5451, 4.7553, 0, 1.5451, 3.4409, 2.6287, 2.5, 4.4721, 2.2361, 0, 2.9389, 0, -4.0451, 1.3819, 2.2361, -4.2532, 0, 0, -5, 2.9389, 0, -4.0451, 0, 0, -5, 1.3143, -2.6287, -4.0451, 1.3143, -2.6287, -4.0451, 0, 0, -5, -1.3819, -2.2361, -4.2532, -2.9389, 0, -4.0451, -3.618, 2.2361, -2.6286, -4.7553, 0, -1.5451, -2.9389, 0, -4.0451, -4.7553, 0, -1.5451, -3.4409, -2.6287, -2.5, -3.4409, -2.6287, -2.5, -4.7553, 0, -1.5451, -4.4721, -2.2361, 0, -4.7553, 0, 1.5451, -3.618, 2.2361, 2.6286, -2.9389, 0, 4.0451, -4.7553, 0, 1.5451, -2.9389, 0, 4.0451, -3.4409, -2.6287, 2.5, -3.4409, -2.6287, 2.5, -2.9389, 0, 4.0451, -1.3819, -2.2361, 4.2532, 0, 0, 5, 1.3819, 2.2361, 4.2532, 2.9389, 0, 4.0451, 0, 0, 5, 2.9389, 0, 4.0451, 1.3143, -2.6287, 4.0451, 1.3143, -2.6287, 4.0451, 2.9389, 0, 4.0451, 3.618, -2.2361, 2.6286, 4.7553, 0, 1.5451, 4.4721, 2.2361, 0, 4.7553, 0, -1.5451, 4.7553, 0, 1.5451, 4.7553, 0, -1.5451, 4.2532, -2.6287, 0, 4.2532, -2.6287, 0, 4.7553, 0, -1.5451, 3.618, -2.2361, -2.6286, 2.1266, -4.2533, -1.5451, 3.618, -2.2361, -2.6286, 1.3143, -2.6287, -4.0451, 2.1266, -4.2533, -1.5451, 1.3143, -2.6287, -4.0451, -0.8123, -4.2533, -2.5, -0.8123, -4.2533, -2.5, 1.3143, -2.6287, -4.0451, -1.3819, -2.2361, -4.2532, -0.8123, -4.2533, -2.5, -1.3819, -2.2361, -4.2532, -3.4409, -2.6287, -2.5, -0.8123, -4.2533, -2.5, -3.4409, -2.6287, -2.5, -2.6286, -4.2533, 0, -2.6286, -4.2533, 0, -3.4409, -2.6287, -2.5, -4.4721, -2.2361, 0, -2.6286, -4.2533, 0, -4.4721, -2.2361, 0, -3.4409, -2.6287, 2.5, -2.6286, -4.2533, 0, -3.4409, -2.6287, 2.5, -0.8123, -4.2533, 2.5, -0.8123, -4.2533, 2.5, -3.4409, -2.6287, 2.5, -1.3819, -2.2361, 4.2532, 4.2532, -2.6287, 0, 3.618, -2.2361, -2.6286, 2.1266, -4.2533, -1.5451, 4.2532, -2.6287, 0, 2.1266, -4.2533, -1.5451, 2.1266, -4.2533, 1.5451, 2.1266, -4.2533, 1.5451, 2.1266, -4.2533, -1.5451, 0, -5, 0, -0.8123, -4.2533, 2.5, -1.3819, -2.2361, 4.2532, 1.3143, -2.6287, 4.0451, -0.8123, -4.2533, 2.5, 1.3143, -2.6287, 4.0451, 2.1266, -4.2533, 1.5451, 2.1266, -4.2533, 1.5451, 1.3143, -2.6287, 4.0451, 3.618, -2.2361, 2.6286, 0, -4.9, 0, 2.0841, -4.1682, 1.5142, -0.796, -4.1682, 2.45, 3.5457, -2.1914, 2.5761, 2.0841, -4.1682, 1.5142, 4.1682, -2.5761, 0, 0, -4.9, 0, -0.796, -4.1682, 2.45, -2.5761, -4.1682, 0, 0, -4.9, 0, -2.5761, -4.1682, 0, -0.796, -4.1682, -2.45, 0, -4.9, 0, -0.796, -4.1682, -2.45, 2.0841, -4.1682, -1.5142, 3.5457, -2.1914, 2.5761, 4.1682, -2.5761, 0, 4.6602, 0, 1.5142, -1.3543, -2.1914, 4.1682, 1.2881, -2.5761, 3.9642, 0, 0, 4.9, -4.3827, -2.1914, 0, -3.3721, -2.5761, 2.45, -4.6602, 0, 1.5142, -1.3543, -2.1914, -4.1682, -3.3721, -2.5761, -2.45, -2.8801, 0, -3.9642, 3.5457, -2.1914, -2.5761, 1.2881, -2.5761, -3.9642, 2.8801, 0, -3.9642, 3.5457, -2.1914, 2.5761, 4.6602, 0, 1.5142, 2.8801, 0, 3.9642, -1.3543, -2.1914, 4.1682, 0, 0, 4.9, -2.8801, 0, 3.9642, -4.3827, -2.1914, 0, -4.6602, 0, 1.5142, -4.6602, 0, -1.5142, -1.3543, -2.1914, -4.1682, -2.8801, 0, -3.9642, 0, 0, -4.9, 3.5457, -2.1914, -2.5761, 2.8801, 0, -3.9642, 4.6602, 0, -1.5142, 1.3543, 2.1914, 4.1682, 3.3721, 2.5761, 2.45, 0.796, 4.1682, 2.45, -3.5457, 2.1914, 2.5761, -1.2881, 2.5761, 3.9642, -2.0841, 4.1682, 1.5142, -3.5457, 2.1914, -2.5761, -4.1682, 2.5761, 0, -2.0841, 4.1682, -1.5142, 1.3543, 2.1914, -4.1682, -1.2881, 2.5761, -3.9642, 0.796, 4.1682, -2.45, 4.3827, 2.1914, 0, 3.3721, 2.5761, -2.45, 2.5761, 4.1682, 0, 2.5761, 4.1682, 0, 0.796, 4.1682, -2.45, 0, 4.9, 0, 2.5761, 4.1682, 0, 3.3721, 2.5761, -2.45, 0.796, 4.1682, -2.45, 3.3721, 2.5761, -2.45, 1.3543, 2.1914, -4.1682, 0.796, 4.1682, -2.45, 0.796, 4.1682, -2.45, -2.0841, 4.1682, -1.5142, 0, 4.9, 0, 0.796, 4.1682, -2.45, -1.2881, 2.5761, -3.9642, -2.0841, 4.1682, -1.5142, -1.2881, 2.5761, -3.9642, -3.5457, 2.1914, -2.5761, -2.0841, 4.1682, -1.5142, -2.0841, 4.1682, -1.5142, -2.0841, 4.1682, 1.5142, 0, 4.9, 0, -2.0841, 4.1682, -1.5142, -4.1682, 2.5761, 0, -2.0841, 4.1682, 1.5142, -4.1682, 2.5761, 0, -3.5457, 2.1914, 2.5761, -2.0841, 4.1682, 1.5142, -2.0841, 4.1682, 1.5142, 0.796, 4.1682, 2.45, 0, 4.9, 0, -2.0841, 4.1682, 1.5142, -1.2881, 2.5761, 3.9642, 0.796, 4.1682, 2.45, -1.2881, 2.5761, 3.9642, 1.3543, 2.1914, 4.1682, 0.796, 4.1682, 2.45, 0.796, 4.1682, 2.45, 2.5761, 4.1682, 0, 0, 4.9, 0, 0.796, 4.1682, 2.45, 3.3721, 2.5761, 2.45, 2.5761, 4.1682, 0, 3.3721, 2.5761, 2.45, 4.3827, 2.1914, 0, 2.5761, 4.1682, 0, 4.6602, 0, -1.5142, 3.3721, 2.5761, -2.45, 4.3827, 2.1914, 0, 4.6602, 0, -1.5142, 2.8801, 0, -3.9642, 3.3721, 2.5761, -2.45, 2.8801, 0, -3.9642, 1.3543, 2.1914, -4.1682, 3.3721, 2.5761, -2.45, 0, 0, -4.9, -1.2881, 2.5761, -3.9642, 1.3543, 2.1914, -4.1682, 0, 0, -4.9, -2.8801, 0, -3.9642, -1.2881, 2.5761, -3.9642, -2.8801, 0, -3.9642, -3.5457, 2.1914, -2.5761, -1.2881, 2.5761, -3.9642, -4.6602, 0, -1.5142, -4.1682, 2.5761, 0, -3.5457, 2.1914, -2.5761, -4.6602, 0, -1.5142, -4.6602, 0, 1.5142, -4.1682, 2.5761, 0, -4.6602, 0, 1.5142, -3.5457, 2.1914, 2.5761, -4.1682, 2.5761, 0, -2.8801, 0, 3.9642, -1.2881, 2.5761, 3.9642, -3.5457, 2.1914, 2.5761, -2.8801, 0, 3.9642, 0, 0, 4.9, -1.2881, 2.5761, 3.9642, 0, 0, 4.9, 1.3543, 2.1914, 4.1682, -1.2881, 2.5761, 3.9642, 2.8801, 0, 3.9642, 3.3721, 2.5761, 2.45, 1.3543, 2.1914, 4.1682, 2.8801, 0, 3.9642, 4.6602, 0, 1.5142, 3.3721, 2.5761, 2.45, 4.6602, 0, 1.5142, 4.3827, 2.1914, 0, 3.3721, 2.5761, 2.45, 2.8801, 0, -3.9642, 0, 0, -4.9, 1.3543, 2.1914, -4.1682, 2.8801, 0, -3.9642, 1.2881, -2.5761, -3.9642, 0, 0, -4.9, 1.2881, -2.5761, -3.9642, -1.3543, -2.1914, -4.1682, 0, 0, -4.9, -2.8801, 0, -3.9642, -4.6602, 0, -1.5142, -3.5457, 2.1914, -2.5761, -2.8801, 0, -3.9642, -3.3721, -2.5761, -2.45, -4.6602, 0, -1.5142, -3.3721, -2.5761, -2.45, -4.3827, -2.1914, 0, -4.6602, 0, -1.5142, -4.6602, 0, 1.5142, -2.8801, 0, 3.9642, -3.5457, 2.1914, 2.5761, -4.6602, 0, 1.5142, -3.3721, -2.5761, 2.45, -2.8801, 0, 3.9642, -3.3721, -2.5761, 2.45, -1.3543, -2.1914, 4.1682, -2.8801, 0, 3.9642, 0, 0, 4.9, 2.8801, 0, 3.9642, 1.3543, 2.1914, 4.1682, 0, 0, 4.9, 1.2881, -2.5761, 3.9642, 2.8801, 0, 3.9642, 1.2881, -2.5761, 3.9642, 3.5457, -2.1914, 2.5761, 2.8801, 0, 3.9642, 4.6602, 0, 1.5142, 4.6602, 0, -1.5142, 4.3827, 2.1914, 0, 4.6602, 0, 1.5142, 4.1682, -2.5761, 0, 4.6602, 0, -1.5142, 4.1682, -2.5761, 0, 3.5457, -2.1914, -2.5761, 4.6602, 0, -1.5142, 2.0841, -4.1682, -1.5142, 1.2881, -2.5761, -3.9642, 3.5457, -2.1914, -2.5761, 2.0841, -4.1682, -1.5142, -0.796, -4.1682, -2.45, 1.2881, -2.5761, -3.9642, -0.796, -4.1682, -2.45, -1.3543, -2.1914, -4.1682, 1.2881, -2.5761, -3.9642, -0.796, -4.1682, -2.45, -3.3721, -2.5761, -2.45, -1.3543, -2.1914, -4.1682, -0.796, -4.1682, -2.45, -2.5761, -4.1682, 0, -3.3721, -2.5761, -2.45, -2.5761, -4.1682, 0, -4.3827, -2.1914, 0, -3.3721, -2.5761, -2.45, -2.5761, -4.1682, 0, -3.3721, -2.5761, 2.45, -4.3827, -2.1914, 0, -2.5761, -4.1682, 0, -0.796, -4.1682, 2.45, -3.3721, -2.5761, 2.45, -0.796, -4.1682, 2.45, -1.3543, -2.1914, 4.1682, -3.3721, -2.5761, 2.45, 4.1682, -2.5761, 0, 2.0841, -4.1682, -1.5142, 3.5457, -2.1914, -2.5761, 4.1682, -2.5761, 0, 2.0841, -4.1682, 1.5142, 2.0841, -4.1682, -1.5142, 2.0841, -4.1682, 1.5142, 0, -4.9, 0, 2.0841, -4.1682, -1.5142, -0.796, -4.1682, 2.45, 1.2881, -2.5761, 3.9642, -1.3543, -2.1914, 4.1682, -0.796, -4.1682, 2.45, 2.0841, -4.1682, 1.5142, 1.2881, -2.5761, 3.9642, 2.0841, -4.1682, 1.5142, 3.5457, -2.1914, 2.5761, 1.2881, -2.5761, 3.9642)
 
 [node name="arena" type="Node3D"]
 
@@ -44,14 +117,32 @@ environment = ExtResource("1_2xcnf")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 50, 0)
 
+[node name="HUD" parent="." instance=ExtResource("4_rh0s4")]
+
 [node name="player" type="CharacterBody3D" parent="." groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.00008, 0)
+collision_layer = 2
+collision_mask = 15
 wall_min_slide_angle = 0.436332
 floor_constant_speed = true
 script = ExtResource("3_bypft")
 
 [node name="collider" type="CollisionShape3D" parent="player"]
 shape = SubResource("CylinderShape3D_aqfra")
+
+[node name="hurtbox" type="Area3D" parent="player" node_paths=PackedStringArray("healthManager")]
+script = ExtResource("3_8btug")
+healthManager = NodePath("..")
+playerId = 1
+teamId = 1
+
+[node name="collider" type="CollisionShape3D" parent="player/hurtbox"]
+shape = SubResource("CylinderShape3D_p84n2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="player"]
+libraries = {
+"": SubResource("AnimationLibrary_b2d6a")
+}
 
 [node name="neck" type="Node3D" parent="player"]
 
@@ -69,7 +160,7 @@ teamId = 1
 damage = 5
 
 [node name="collider" type="CollisionShape3D" parent="player/neck/Camera3D/shotgun/shotgun area"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -7.5)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -15)
 shape = SubResource("CylinderShape3D_cnsfv")
 disabled = true
 
@@ -83,7 +174,7 @@ wait_time = 0.8
 one_shot = true
 
 [node name="particles" type="GPUParticles3D" parent="player/neck/Camera3D/shotgun"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.156, -0.68)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.123605, -0.209118, -0.752844)
 emitting = false
 lifetime = 0.3
 one_shot = true
@@ -92,6 +183,9 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_wtump")
 draw_pass_1 = SubResource("SphereMesh_u88th")
 
+[node name="shotgun model" parent="player/neck/Camera3D/shotgun" instance=ExtResource("6_1l23g")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.06, 0.125, -0.26, -0.435)
+
 [node name="floor" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="floor"]
@@ -99,11 +193,55 @@ shape = SubResource("BoxShape3D_la4os")
 
 [node name="model" type="CSGBox3D" parent="floor"]
 material_override = ExtResource("2_ii6ax")
-size = Vector3(100, 1, 100)
+size = Vector3(150, 1, 150)
 
-[node name="HUD" parent="." instance=ExtResource("4_rh0s4")]
+[node name="invis wall" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -75, 75, 0)
 
-[node name="enemy" parent="." instance=ExtResource("6_j374i")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.92271, 2.30109, -5.24229)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="invis wall"]
+shape = SubResource("BoxShape3D_pa7ao")
+
+[node name="invis wall2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 75, 75, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="invis wall2"]
+shape = SubResource("BoxShape3D_pa7ao")
+
+[node name="invis wall3" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 75, 75)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="invis wall3"]
+shape = SubResource("BoxShape3D_pa7ao")
+
+[node name="invis wall4" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 75, -75)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="invis wall4"]
+shape = SubResource("BoxShape3D_pa7ao")
+
+[node name="invis wall5" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 150, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="invis wall5"]
+shape = SubResource("BoxShape3D_pa7ao")
+
+[node name="barrier" type="StaticBody3D" parent="."]
+collision_layer = 8
+collision_mask = 0
+
+[node name="barrier model" parent="barrier" instance=ExtResource("9_yheiy")]
+transform = Transform3D(9.5, 0, 0, 0, 9.5, 0, 0, 0, 9.5, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="barrier"]
+transform = Transform3D(9.5, 0, 0, 0, 9.5, 0, 0, 0, 9.5, 0, 0, 0)
+shape = SubResource("ConcavePolygonShape3D_yxkvu")
+
+[node name="spawner" type="Node3D" parent="."]
+script = ExtResource("10_bb77x")
+
+[node name="Timer" type="Timer" parent="spawner"]
+process_callback = 0
+autostart = true
 
 [connection signal="area_entered" from="player/neck/Camera3D/shotgun/shotgun area" to="player/neck/Camera3D/shotgun/shotgun area" method="_on_area_entered"]
+[connection signal="timeout" from="spawner/Timer" to="spawner" method="_on_timer_timeout"]
