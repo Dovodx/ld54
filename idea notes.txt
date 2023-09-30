@@ -5,21 +5,31 @@ must-have todos:
     ✔basic movement
     ✔death
     ✔damage player
-    -model
-    -proper death effects
-    -improved damage (repeat on continued contact, timeout, etc.)
+    ✔model
+    ✔smarter movement (face player)
+    ✔proper death effects (sound, explosion)
+    -attack animation
+    -attack sound
     ✔spawn enemies automatically
-    -KRABS????
+    ✔KRABS????
 ✔make shooting
 -badass rock music
 -crunchy punchy sound effects
 -HUD with terminator-esque theme
     ✔reticle
     ✔health
+    -minimap/radar
     -show what gun you're using (low priority)
 ✔basic viewmodel
 ✔HOOHOO YOU THINK A BARRIER WILL WORK
--interpolation!!
+-gameplay loop (start, die, restart)
+-score
+    -points for kills
+    -bonus points for killing multiple enemies in one shot
+    -chain kills
+✔interpolation!!
+    ✔player
+    ✔enemies
 -nice font
 -GUNS
     ---PRIIIMary---
@@ -42,6 +52,7 @@ ideas/nice to haves:
 -main menu
 -options menu
 -volume control
+
 -make momentum stay when in the air (make it not work the same as moving on the ground)
 
 dream on lmao

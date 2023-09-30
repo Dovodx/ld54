@@ -67,6 +67,7 @@ secondary_fire={
 3d_physics/layer_2="player"
 3d_physics/layer_3="enemy"
 3d_physics/layer_4="barrier"
+3d_physics/layer_5="gib"
 
 [physics]
 
