@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://bp31amq5hdmds"]
+
+[ext_resource type="Script" path="res://Scripts/EnemyScript.gd" id="1_ev5sc"]
+[ext_resource type="Script" path="res://Scripts/HurtboxScript.gd" id="2_7bsel"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xog86"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_2hlul"]
+
+[node name="enemy" type="RigidBody3D"]
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+max_contacts_reported = 10
+contact_monitor = true
+can_sleep = false
+script = ExtResource("1_ev5sc")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+material_override = SubResource("StandardMaterial3D_xog86")
+
+[node name="collider" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_2hlul")
+
+[node name="hurtbox" type="Area3D" parent="." node_paths=PackedStringArray("healthManager")]
+script = ExtResource("2_7bsel")
+healthManager = NodePath("..")
+teamId = 2
+
+[node name="collider" type="CollisionShape3D" parent="hurtbox"]
+shape = SubResource("CylinderShape3D_2hlul")

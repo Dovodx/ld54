@@ -1,0 +1,47 @@
+---Limited Space---
+
+must-have todos:
+-make enemy
+    ✔basic movement
+    ✔death
+    -damage player
+✔make shooting
+-badass rock music
+-crunchy punchy sound effects
+-HUD with terminator-esque theme
+    ✔reticle
+    -health
+    -show what gun you're using (maybe not top priority)
+-basic viewmodel
+-limit play area with big shieldy thing
+-interpolation!!
+-nice font
+-GUNS
+    ---PRIIIMary---
+    -shotgun (duh)
+        ✔sound
+        ✔visual effect (kinda crappy, but will do for now)
+        ✔functional code
+        -viewmodel
+    -machine gun
+    -fucking PIRATE CANNON YOHOHO MOTHERFUCKER
+    -light of judgement (pointy light then go boom haha zamasu)
+
+    ---secondary---
+    -laser eyes (secondary)
+    -horizontal melee lunge attack
+
+ideas/nice to haves:
+-animated viewmodel
+-main menu
+-options menu
+-volume control
+-limited space for upgrades (3 slots)
+    -upgrade ideas:
+        -laser eyes
+        -speed
+        -armor
+        -buff certain weapon types
+        -regen ammo
+        -temporarily move out of limited space (not insta-die?)
+

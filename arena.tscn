@@ -1,0 +1,109 @@
+[gd_scene load_steps=14 format=3 uid="uid://bnadr2wupwf3b"]
+
+[ext_resource type="Environment" uid="uid://d02v4vbgt2bgg" path="res://Shaders and Materials/arena environment.tres" id="1_2xcnf"]
+[ext_resource type="Material" uid="uid://dxiegiwkwigjq" path="res://Shaders and Materials/floor material.tres" id="2_ii6ax"]
+[ext_resource type="Script" path="res://Scripts/PlayerScript.gd" id="3_bypft"]
+[ext_resource type="Script" path="res://Scripts/HitboxScript.gd" id="3_hyht0"]
+[ext_resource type="PackedScene" uid="uid://bo153vm1kdfnp" path="res://Prefabs/hud.tscn" id="4_rh0s4"]
+[ext_resource type="AudioStream" uid="uid://bj3u0xd56fqxt" path="res://Sounds/shotgun fire.wav" id="4_svwow"]
+[ext_resource type="PackedScene" uid="uid://bp31amq5hdmds" path="res://Prefabs/enemy.tscn" id="6_j374i"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_aqfra"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_cnsfv"]
+height = 15.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wtump"]
+emission_shape = 3
+emission_box_extents = Vector3(0.05, 0, 0)
+particle_flag_align_y = true
+direction = Vector3(0, 0, -1)
+spread = 4.15
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 24.7
+initial_velocity_max = 24.7
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qet68"]
+transparency = 1
+albedo_color = Color(0.92549, 0.870588, 0, 0.423529)
+
+[sub_resource type="SphereMesh" id="SphereMesh_u88th"]
+material = SubResource("StandardMaterial3D_qet68")
+radius = 0.015
+radial_segments = 4
+rings = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_la4os"]
+size = Vector3(100, 1, 100)
+
+[node name="arena" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("1_2xcnf")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 50, 0)
+
+[node name="player" type="CharacterBody3D" parent="." groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.00008, 0)
+wall_min_slide_angle = 0.436332
+floor_constant_speed = true
+script = ExtResource("3_bypft")
+
+[node name="collider" type="CollisionShape3D" parent="player"]
+shape = SubResource("CylinderShape3D_aqfra")
+
+[node name="neck" type="Node3D" parent="player"]
+
+[node name="Camera3D" type="Camera3D" parent="player/neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.840072, 0)
+current = true
+fov = 90.0
+
+[node name="shotgun" type="Node3D" parent="player/neck/Camera3D"]
+
+[node name="shotgun area" type="Area3D" parent="player/neck/Camera3D/shotgun"]
+input_ray_pickable = false
+script = ExtResource("3_hyht0")
+teamId = 1
+damage = 5
+
+[node name="collider" type="CollisionShape3D" parent="player/neck/Camera3D/shotgun/shotgun area"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -7.5)
+shape = SubResource("CylinderShape3D_cnsfv")
+disabled = true
+
+[node name="fire sound" type="AudioStreamPlayer3D" parent="player/neck/Camera3D/shotgun"]
+stream = ExtResource("4_svwow")
+max_polyphony = 10
+
+[node name="cooldown timer" type="Timer" parent="player/neck/Camera3D/shotgun"]
+process_callback = 0
+wait_time = 0.8
+one_shot = true
+
+[node name="particles" type="GPUParticles3D" parent="player/neck/Camera3D/shotgun"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.156, -0.68)
+emitting = false
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_wtump")
+draw_pass_1 = SubResource("SphereMesh_u88th")
+
+[node name="floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor"]
+shape = SubResource("BoxShape3D_la4os")
+
+[node name="model" type="CSGBox3D" parent="floor"]
+material_override = ExtResource("2_ii6ax")
+size = Vector3(100, 1, 100)
+
+[node name="HUD" parent="." instance=ExtResource("4_rh0s4")]
+
+[node name="enemy" parent="." instance=ExtResource("6_j374i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.92271, 2.30109, -5.24229)
+
+[connection signal="area_entered" from="player/neck/Camera3D/shotgun/shotgun area" to="player/neck/Camera3D/shotgun/shotgun area" method="_on_area_entered"]

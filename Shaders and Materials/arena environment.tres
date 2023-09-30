@@ -1,0 +1,8 @@
+[gd_resource type="Environment" load_steps=2 format=3 uid="uid://d02v4vbgt2bgg"]
+
+[ext_resource type="Sky" uid="uid://bbnmutd7cfgd" path="res://Shaders and Materials/arena sky.tres" id="1_18glb"]
+
+[resource]
+background_mode = 2
+sky = ExtResource("1_18glb")
+ambient_light_source = 2
