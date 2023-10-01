@@ -17,10 +17,11 @@ todos:
 ✔make shooting
 ✔clean up gibs
 ✔main menu
--pause menu
--options menu
-    -mouse sensitivity
-    -volume control
+✔pause menu
+✔options menu
+    ✔mouse sensitivity
+    ✔volume control
+-custom game icon
 ✔hud text when leveling up
 -make sure level 4 works
 ✔level up sound

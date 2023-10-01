@@ -14,6 +14,10 @@ var radar: Control
 var levelUpText: RichTextLabel
 var deathScoreText: RichTextLabel
 
+var pauseMenu: Control
+var pauseBg: Control
+var optionsMenu: Control
+
 var speed = 14.0
 var jumpForce = 8
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -44,6 +48,19 @@ func _ready():
 	levelUpText = get_node("/root/arena/HUD/in-game/level up text")
 	deathScoreText = get_node("/root/arena/HUD/dead/score")
 	
+	pauseMenu = get_node("/root/arena/HUD/pause_menu")
+	pauseBg = get_node("/root/arena/HUD/pause_bg")
+	optionsMenu = get_node("/root/arena/HUD/options_menu")
+	
+	pauseMenu.visible = false
+	pauseBg.visible = false
+	optionsMenu.visible = false
+	
+	pauseMenu.get_node("resume").connect("pressed", unpauseGame)
+	pauseMenu.get_node("options").connect("pressed", openOptionsMenu)
+	pauseMenu.get_node("quit").connect("pressed", _on_quit_pressed)
+	optionsMenu.get_node("exit button").connect("pressed", closeOptionsMenu)
+	
 	get_node("/root/arena/HUD/in-game").visible = true
 	levelUpText.visible = false
 	get_node("/root/arena/HUD/dead").visible = false
@@ -62,6 +79,28 @@ func _ready():
 func updateScoreText():
 	scoreText.text = "Score: " + str(Global.score)
 
+func pauseGame():
+	pauseBg.visible = true
+	pauseMenu.visible = true
+	get_tree().paused = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+func unpauseGame():
+	pauseBg.visible = false
+	optionsMenu.visible = false
+	pauseMenu.visible = false
+	get_tree().paused = false
+	lastTwoPositions = [global_position, global_position]
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func openOptionsMenu():
+	optionsMenu.visible = true
+	pauseMenu.visible = false
+
+func closeOptionsMenu():
+	optionsMenu.visible = false
+	pauseMenu.visible = true
+
 func _unhandled_input(event):
 	if dead:
 		return
@@ -69,7 +108,7 @@ func _unhandled_input(event):
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	elif event.is_action_pressed("ui_cancel"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		#TODO: pause menu
+		pauseGame()
 	elif Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		if event is InputEventMouseMotion:
 			neck.rotate_y(-event.relative.x * 0.001 * Global.mouse_sensitivity)

@@ -31,7 +31,6 @@ func stop_spawning():
 	$Timer.stop()
 
 func increase_difficulty():
-	print("increasing difficulty")
 	if Global.score >= 500 and timesRateIncreased < 1:
 		$Timer.wait_time = 1.7
 		barrierScale = 8.5
@@ -135,7 +134,7 @@ func increase_difficulty():
 		barrierScale = 9.5
 		barrierRestoreSound.play()
 		timesRateIncreased += 1
-	elif Global.score > 50000 + (timesRateIncreased - 20) * 5000 and timesRateIncreased > 19:
+	elif Global.score > 50000 + (timesRateIncreased - 20) * 5000 and timesRateIncreased >= 19:
 		timesRateIncreased += 1
 		if timesRateIncreased == 22:
 			player.level_up() #Level 4 (MAX)

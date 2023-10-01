@@ -106,6 +106,7 @@ func die(damage):
 	sound.max_distance = 10000000.0
 	sound.attenuation_filter_cutoff_hz = 20500
 	sound.unit_size = 20
+	sound.bus = "SFX"
 	sound.connect("finished", queue_free)
 	sound.play()
 	
@@ -152,7 +153,7 @@ func die(damage):
 		gibCollider.global_rotation = modelRot
 		
 		var cleanupTimer = Timer.new()
-		cleanupTimer.wait_time = 20
+		cleanupTimer.wait_time = Global.gib_lifetime
 		cleanupTimer.connect("timeout", gib.queue_free)
 		gib.add_child(cleanupTimer)
 		cleanupTimer.start()

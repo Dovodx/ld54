@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="Ld 54"
-run/main_scene="res://Scenes/arena.tscn"
+run/main_scene="res://Scenes/main_menu.tscn"
 config/features=PackedStringArray("4.1", "GL Compatibility")
 config/icon="res://Shaders and Materials/icon.svg"
+
+[audio]
+
+buses/default_bus_layout="res://audio_bus_layout.tres"
 
 [autoload]
 
