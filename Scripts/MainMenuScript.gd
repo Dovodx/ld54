@@ -17,4 +17,7 @@ func _on_options_pressed():
 	$options_menu.visible = true
 
 func _on_quit_pressed():
+	if DisplayServer.window_get_mode() != DisplayServer.WINDOW_MODE_WINDOWED and DisplayServer.window_get_mode() != DisplayServer.WINDOW_MODE_MAXIMIZED:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	
 	get_tree().quit()
