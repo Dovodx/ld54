@@ -48,7 +48,7 @@ func _integrate_forces(state):
 	if not is_on_floor():
 		linear_velocity.y -= gravity * get_physics_process_delta_time()
 	
-	if player != null:
+	if player != null and !player.dead:
 		var lookAt = transform.looking_at(player.global_position)
 		var angleToRotate = lookAt.basis.get_euler().y - global_rotation.y
 		if angleToRotate < -PI:

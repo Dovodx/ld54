@@ -1,7 +1,7 @@
 extends Node
 
 var score = 0
-#TODO: mouse sensitivity setting
+var mouse_sensitivity = 1.0
 
 func set_score(value):
 	score = value

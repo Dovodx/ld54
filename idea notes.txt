@@ -17,12 +17,17 @@ todos:
 ✔make shooting
 ✔clean up gibs
 ✔main menu
+-pause menu
 -options menu
--volume control
+    -mouse sensitivity
+    -volume control
+✔hud text when leveling up
+-make sure level 4 works
+✔level up sound
 ✔badass rock music
--crunchy punchy sound effects
+✔crunchy punchy sound effects
     ✔sound when getting hit
-    -dying
+    ✔dying
     ✔passive sound so you can hear enemies coming
     ✔sound when barrier shrinks & grows
 ✔fix the mysterious teleport bug (fingers crossed)
@@ -62,8 +67,8 @@ todos:
 
 ideas/nice to haves:
 ✔animated viewmodel
-Xno shooting outside barrier
 
+Xno shooting outside barrier
 Xmake momentum stay when in the air (make it not work the same as moving on the ground)
 
 dream on lmao

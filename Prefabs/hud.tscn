@@ -81,6 +81,21 @@ grow_horizontal = 0
 pivot_offset = Vector2(60, 60)
 script = ExtResource("3_22cfi")
 
+[node name="level up text" type="RichTextLabel" parent="in-game"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -120.0
+offset_right = 120.0
+offset_bottom = 70.0
+grow_horizontal = 2
+theme_override_font_sizes/normal_font_size = 22
+bbcode_enabled = true
+text = "[center]Level Up!
+Attribute increased"
+
 [node name="dead" type="Control" parent="."]
 visible = false
 layout_mode = 3
