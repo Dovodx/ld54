@@ -27,6 +27,7 @@ mouse_filter = 2
 theme = ExtResource("2_8a2yb")
 
 [node name="reticle" type="TextureRect" parent="in-game"]
+self_modulate = Color(1, 1, 1, 0.705882)
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 8
@@ -62,6 +63,7 @@ value = 100.0
 show_percentage = false
 
 [node name="score" type="RichTextLabel" parent="in-game"]
+layout_mode = 0
 offset_right = 250.0
 offset_bottom = 40.0
 theme_override_colors/default_color = Color(0.777344, 0.09375, 0.09375, 1)

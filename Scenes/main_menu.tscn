@@ -35,7 +35,7 @@ pivot_offset = Vector2(200, 41)
 theme = ExtResource("1_ma1bl")
 theme_override_font_sizes/normal_font_size = 41
 bbcode_enabled = true
-text = "[center]Attack of the Crab Bots"
+text = "[center]Attack of the Robot Crabs"
 scroll_active = false
 
 [node name="start" type="Button" parent="."]

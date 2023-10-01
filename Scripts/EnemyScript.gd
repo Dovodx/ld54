@@ -1,4 +1,4 @@
-extends CharacterBody3D
+extends RigidBody3D
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -7,17 +7,20 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var health = 5
 var speed = 9.0
 var rotateSpeed = 2.0
+var anim: AnimationPlayer
+var attackDistance = 12.0
 var player: Node3D
+var model: Node3D
 
 var arraysInitialized = false
 var lastTwoPositions = [Vector3.ZERO, Vector3.ZERO]
 var lastTwoRotations = [0, 0]
 var lastPhysicsProcessTime = Time.get_ticks_usec()
 
-#TODO: attack animation
-
 func _ready():
 	player = get_tree().get_nodes_in_group("player")[0]
+	anim = $AnimationPlayer
+	model = $"bug eater"
 
 func initialize_arrays():
 	lastTwoPositions = [global_position, global_position]
@@ -28,12 +31,22 @@ func _process(delta):
 	if arraysInitialized:
 		var timeDiff = (Time.get_ticks_usec() - lastPhysicsProcessTime) / 1000000.0
 		var lerpWeight = timeDiff / (1.0 / Engine.physics_ticks_per_second)
-		global_position = lastTwoPositions[0].lerp(lastTwoPositions[1], lerpWeight)
-		global_rotation.y = lerp(lastTwoRotations[0], lastTwoRotations[1], lerpWeight)
+		model.global_position = lastTwoPositions[0].lerp(lastTwoPositions[1], lerpWeight)
+		model.global_rotation.y = lerp(lastTwoRotations[0], lastTwoRotations[1], lerpWeight)
 
-func _physics_process(delta):
+func is_on_floor():
+	return $floorcheck.is_colliding()
+
+func _integrate_forces(state):
+#	print("scale: " + str(scale))
+#	print("bug eater scale: " + str(model.scale))
+#	print("bug eater pos: " + str(model.position))
+#	print("bug eater rot: " + str(model.rotation_degrees))
+#	print("model scale: " + str($"bug eater/enemy1 model".scale))
+#	print("model pos: " + str($"bug eater/enemy1 model".position))
+#	print("model rot: " + str($"bug eater/enemy1 model".rotation_degrees))
 	if not is_on_floor():
-		velocity.y -= gravity * delta
+		linear_velocity.y -= gravity * get_physics_process_delta_time()
 	
 	if player != null:
 		var lookAt = transform.looking_at(player.global_position)
@@ -42,13 +55,25 @@ func _physics_process(delta):
 			angleToRotate = angleToRotate + 2.0 * PI
 		elif angleToRotate > PI:
 			angleToRotate = angleToRotate - 2.0 * PI
-		global_rotation.y += angleToRotate * rotateSpeed * delta
+		angular_velocity.y = clamp(angleToRotate * rotateSpeed, -rotateSpeed, rotateSpeed)
 		
-		var movementVector = ((-transform.basis.z).normalized() * speed)
-		velocity.x = movementVector.x
-		velocity.z = movementVector.z
-
-	move_and_slide()
+		var speedMult = 1.0
+		#Slow down to turn better when the player is behind
+		if rad_to_deg(abs(angleToRotate)) > 110:
+			speedMult = -0.5
+		elif rad_to_deg(abs(angleToRotate)) > 90:
+			speedMult = 0.2
+		var movementVector = ((-transform.basis.z).normalized() * speed * speedMult)
+		linear_velocity.x = movementVector.x
+		linear_velocity.z = movementVector.z
+		
+		#Play attack anim if close enough to player
+		if global_position.distance_squared_to(player.global_position) <= pow(attackDistance, 2):
+			call_deferred("set_anim_state", true)
+		else:
+			call_deferred("set_anim_state", false)
+	else:
+		call_deferred("set_anim_state", false)
 	
 	lastTwoPositions[0] = lastTwoPositions[1]
 	lastTwoPositions[1] = global_position
@@ -59,6 +84,12 @@ func _physics_process(delta):
 		lastTwoRotations[0] = lastTwoRotations[0] - sign(lastTwoRotations[0] - lastTwoRotations[1]) * 2.0 * PI
 	lastPhysicsProcessTime = Time.get_ticks_usec()
 
+func set_anim_state(playing):
+	if playing:
+		anim.play("claw_attack")
+	else:
+		anim.stop()
+
 func take_damage(amount):
 	health -= amount
 	if health <= 0:
@@ -66,7 +97,7 @@ func take_damage(amount):
 
 #The damage of the killing blow affects the knockback force of the gibs
 func die(damage):
-	Global.score += 100
+	Global.set_score(Global.score + 100)
 	
 	var sound = AudioStreamPlayer3D.new()
 	sound.stream = deathSound
@@ -74,13 +105,22 @@ func die(damage):
 	sound.global_position = global_position
 	sound.max_distance = 10000000.0
 	sound.attenuation_filter_cutoff_hz = 20500
+	sound.unit_size = 20
 	sound.connect("finished", queue_free)
 	sound.play()
 	
-	var modelScale = $"enemy1 model".scale
-	for item in $"enemy1 model".get_children():
-		var gibPos = item.global_position
-		var modelRot = item.global_rotation
+	var modelScale = $"bug eater/enemy1 model".scale
+	for pieceToGib in $"bug eater/enemy1 model".get_children():
+		if not pieceToGib is MeshInstance3D:
+			if pieceToGib.name.begins_with("right claw"):
+				pass
+			elif pieceToGib.name.begins_with("left claw"):
+				pass
+			else:
+				continue
+		
+		var gibPos = pieceToGib.global_position
+		var modelRot = pieceToGib.global_rotation
 		
 		var gib = RigidBody3D.new()
 		gib.set_collision_layer_value(1, false)
@@ -88,21 +128,34 @@ func die(damage):
 		gib.set_collision_mask_value(4, true)
 		gib.set_collision_mask_value(5, true)
 		
-		var gibCollider = get_node("hurtbox/" + item.name + " collider")
+		var colliderPath = ""
+		if pieceToGib.name.begins_with("right claw"):
+			colliderPath = "hurtbox/right claw collider"
+		elif pieceToGib.name.begins_with("left claw"):
+			colliderPath = "hurtbox/left claw collider"
+		else:
+			colliderPath = "hurtbox/" + pieceToGib.name + " collider"
+		var gibCollider = get_node(colliderPath)
 		
 		get_tree().get_root().get_node("arena").add_child(gib)
 		gib.global_position = gibPos
 		
-		item.get_parent().remove_child(item)
-		gib.add_child(item)
-		item.position = Vector3.ZERO
-		item.global_rotation = modelRot
-		item.scale = modelScale
+		pieceToGib.get_parent().remove_child(pieceToGib)
+		gib.add_child(pieceToGib)
+		pieceToGib.position = Vector3.ZERO
+		pieceToGib.global_rotation = modelRot
+		pieceToGib.scale = modelScale
 		
 		gibCollider.get_parent().remove_child(gibCollider)
 		gib.add_child(gibCollider)
 		gibCollider.position = Vector3.ZERO
 		gibCollider.global_rotation = modelRot
+		
+		var cleanupTimer = Timer.new()
+		cleanupTimer.wait_time = 20
+		cleanupTimer.connect("timeout", gib.queue_free)
+		gib.add_child(cleanupTimer)
+		cleanupTimer.start()
 		
 		gib.inertia = Vector3.ONE
 		gib.apply_impulse((gib.global_position - player.global_position).normalized() * 5.0 * damage)

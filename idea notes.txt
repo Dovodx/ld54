@@ -1,27 +1,31 @@
 ---Limited Space---
 
 todos:
--make enemy
+✔make enemy
     ✔basic movement
     ✔death
     ✔damage player
     ✔model
     ✔smarter movement (face player)
     ✔proper death effects (sound, explosion)
-    -attack animation
-    -attack sound
-    -better attack logic (not just making contact and dealing damage once)
-    -back off or do something different with movement after attacking
+    ✔attack animation
+    ✔attack sound
+    ✔back off or do something different with movement after attacking
     ✔spawn enemies automatically
-    ✔KRABS????
+    ✔KRABS???
+    ✔fix issue where they get stuck on each other (good enough)
 ✔make shooting
--badass rock music
+✔clean up gibs
+✔main menu
+-options menu
+-volume control
+✔badass rock music
 -crunchy punchy sound effects
-    -sound when getting hit
+    ✔sound when getting hit
     -dying
-    -passive sound so you can hear enemies coming
-    -sound when barrier shrinks
--fix the mysterious teleport bug (I have no idea what causes this)
+    ✔passive sound so you can hear enemies coming
+    ✔sound when barrier shrinks & grows
+✔fix the mysterious teleport bug (fingers crossed)
 ✔HUD with terminator-esque theme
     ✔reticle
     ✔health
@@ -58,11 +62,9 @@ todos:
 
 ideas/nice to haves:
 ✔animated viewmodel
--main menu
--options menu
--volume control
+Xno shooting outside barrier
 
--make momentum stay when in the air (make it not work the same as moving on the ground)
+Xmake momentum stay when in the air (make it not work the same as moving on the ground)
 
 dream on lmao
 -limited space for upgrades (3 slots)

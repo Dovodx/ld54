@@ -65,8 +65,6 @@ func _process(delta):
 	var timeDiff = (Time.get_ticks_usec() - lastPhysicsProcessTime) / 1000000.0
 	var lerpWeight = timeDiff / (1.0 / Engine.physics_ticks_per_second)
 	campivot.global_position = lastTwoPositions[0].lerp(lastTwoPositions[1], lerpWeight)
-	
-	#possibly force radar redraw
 	radar.queue_redraw()
 
 func is_on_floor():
@@ -118,6 +116,7 @@ func take_damage(amount):
 		return
 	health -= amount
 	healthbar.value = health
+	$"hurt sound".play()
 	if health <= 0:
 		dead = true
 		call_deferred("die")
@@ -131,7 +130,7 @@ func die():
 	get_node("/root/arena/HUD/in-game").visible = false
 	get_node("/root/arena/HUD/dead").visible = true
 	deathScoreText.text = "[center]Score: " + str(Global.score)
-	Global.score = 0
+	Global.set_score(0)
 
 func _on_retry_pressed():
 	get_tree().reload_current_scene()
