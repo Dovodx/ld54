@@ -1,7 +1,7 @@
 extends Node
 
 var enemy1 = preload("res://Prefabs/enemy.tscn")
-var spawnRadiusDistance = 60.0
+var spawnRadiusDistance = 70.0
 var timesRateIncreased = 0
 
 var barrierScale = 9.5
@@ -28,19 +28,19 @@ func _on_timer_timeout():
 		barrierScale = 7.5
 		timesRateIncreased += 1
 	elif Global.score > 2500 and timesRateIncreased < 3:
-		$Timer.wait_time *= 0.8
+		$Timer.wait_time *= 0.85
 		barrierScale = 6.5
 		timesRateIncreased += 1
 	elif Global.score > 4000 and timesRateIncreased < 4:
-		$Timer.wait_time *= 0.8
+		$Timer.wait_time *= 0.85
 		barrierScale = 6.0
 		timesRateIncreased += 1
 	elif Global.score > 6000 and timesRateIncreased < 5:
-		$Timer.wait_time *= 0.8
+		$Timer.wait_time *= 0.85
 		barrierScale = 5.0
 		timesRateIncreased += 1
 	elif Global.score > 8000 and timesRateIncreased < 6:
-		$Timer.wait_time *= 0.7
+		$Timer.wait_time *= 0.85
 		barrierScale = 4.0
 		timesRateIncreased += 1
 	elif Global.score > 10000 and timesRateIncreased < 7:

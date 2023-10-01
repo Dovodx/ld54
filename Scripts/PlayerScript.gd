@@ -66,7 +66,8 @@ func _process(delta):
 	var lerpWeight = timeDiff / (1.0 / Engine.physics_ticks_per_second)
 	campivot.global_position = lastTwoPositions[0].lerp(lastTwoPositions[1], lerpWeight)
 	
-	
+	#possibly force radar redraw
+	radar.queue_redraw()
 
 func is_on_floor():
 	return $floorcheck.is_colliding()

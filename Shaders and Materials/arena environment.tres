@@ -6,3 +6,4 @@
 background_mode = 2
 sky = ExtResource("1_18glb")
 ambient_light_source = 2
+ambient_light_color = Color(0.317647, 0.545098, 0.607843, 1)

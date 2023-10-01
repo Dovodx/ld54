@@ -22,12 +22,11 @@ todos:
     -passive sound so you can hear enemies coming
     -sound when barrier shrinks
 -fix the mysterious teleport bug (I have no idea what causes this)
--HUD with terminator-esque theme
+✔HUD with terminator-esque theme
     ✔reticle
     ✔health
     ✔score
-    -minimap/radar
-    -show what gun you're using (low priority)
+    ✔minimap/radar
 ✔basic viewmodel
 ✔HOOHOO YOU THINK A BARRIER WILL WORK
 ✔gameplay loop (start, die, restart)
