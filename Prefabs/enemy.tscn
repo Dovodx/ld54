@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bp31amq5hdmds"]
+[gd_scene load_steps=12 format=3 uid="uid://bp31amq5hdmds"]
 
 [ext_resource type="Script" path="res://Scripts/EnemyScript.gd" id="1_ev5sc"]
 [ext_resource type="Script" path="res://Scripts/HurtboxScript.gd" id="2_7bsel"]
@@ -12,11 +12,14 @@ size = Vector3(1.52, 0.6774, 2.69)
 [sub_resource type="BoxShape3D" id="BoxShape3D_76hqh"]
 size = Vector3(0.688137, 1.21774, 0.698132)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_yjdur"]
-size = Vector3(0.623453, 0.937398, 1.3525)
+[sub_resource type="BoxShape3D" id="BoxShape3D_tvsmt"]
+size = Vector3(1.92882, 0.937398, 1.3525)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2tcev"]
 size = Vector3(0.591307, 1.02283, 0.577571)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yjdur"]
+size = Vector3(0.623453, 0.937398, 1.3525)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nraep"]
 size = Vector3(0.623453, 0.937398, 1.69604)
@@ -40,13 +43,9 @@ shape = SubResource("BoxShape3D_eksjc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.286458, -0.00104761)
 shape = SubResource("BoxShape3D_76hqh")
 
-[node name="left claw collider" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.653148, 0.590159, -0.692)
-shape = SubResource("BoxShape3D_yjdur")
-
-[node name="right claw collider" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.653, 0.59, -0.692)
-shape = SubResource("BoxShape3D_yjdur")
+[node name="claw collider" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.59, -0.692)
+shape = SubResource("BoxShape3D_tvsmt")
 
 [node name="head collider" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.40994, -0.00104761)

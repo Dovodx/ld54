@@ -1,6 +1,6 @@
 ---Limited Space---
 
-must-have todos:
+todos:
 -make enemy
     ✔basic movement
     ✔death
@@ -10,27 +10,37 @@ must-have todos:
     ✔proper death effects (sound, explosion)
     -attack animation
     -attack sound
+    -better attack logic (not just making contact and dealing damage once)
+    -back off or do something different with movement after attacking
     ✔spawn enemies automatically
     ✔KRABS????
 ✔make shooting
 -badass rock music
 -crunchy punchy sound effects
+    -sound when getting hit
+    -dying
+    -passive sound so you can hear enemies coming
+    -sound when barrier shrinks
+-fix the mysterious teleport bug (I have no idea what causes this)
 -HUD with terminator-esque theme
     ✔reticle
     ✔health
+    ✔score
     -minimap/radar
     -show what gun you're using (low priority)
 ✔basic viewmodel
 ✔HOOHOO YOU THINK A BARRIER WILL WORK
--gameplay loop (start, die, restart)
+✔gameplay loop (start, die, restart)
 -score
-    -points for kills
+    ✔points for kills
     -bonus points for killing multiple enemies in one shot
     -chain kills
+✔increasing difficulty (more spawns at least)
+✔make barrier get smaller
 ✔interpolation!!
     ✔player
     ✔enemies
--nice font
+✔nice font
 -GUNS
     ---PRIIIMary---
     -shotgun (duh)

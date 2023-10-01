@@ -66,11 +66,15 @@ func take_damage(amount):
 
 #The damage of the killing blow affects the knockback force of the gibs
 func die(damage):
+	Global.score += 100
+	
 	var sound = AudioStreamPlayer3D.new()
 	sound.stream = deathSound
-	get_tree().get_root().add_child(sound)
+	get_tree().get_root().get_node("arena").add_child(sound)
 	sound.global_position = global_position
 	sound.max_distance = 10000000.0
+	sound.attenuation_filter_cutoff_hz = 20500
+	sound.connect("finished", queue_free)
 	sound.play()
 	
 	var modelScale = $"enemy1 model".scale
@@ -84,9 +88,9 @@ func die(damage):
 		gib.set_collision_mask_value(4, true)
 		gib.set_collision_mask_value(5, true)
 		
-		var gibCollider = get_node(item.name + " collider")
+		var gibCollider = get_node("hurtbox/" + item.name + " collider")
 		
-		get_tree().get_root().add_child(gib)
+		get_tree().get_root().get_node("arena").add_child(gib)
 		gib.global_position = gibPos
 		
 		item.get_parent().remove_child(item)
@@ -101,10 +105,10 @@ func die(damage):
 		gibCollider.global_rotation = modelRot
 		
 		gib.inertia = Vector3.ONE
-		gib.apply_impulse((gib.global_position - player.global_position).normalized() * 4.0 * damage)
-		var baseTorque = damage
-		gib.apply_torque_impulse(Vector3(randf_range(-baseTorque, baseTorque),
-			randf_range(-baseTorque, baseTorque),
-			randf_range(-baseTorque, baseTorque)))
+		gib.apply_impulse((gib.global_position - player.global_position).normalized() * 5.0 * damage)
+		var gibTorque = 1.2 * damage
+		gib.apply_torque_impulse(Vector3(randf_range(-gibTorque, gibTorque),
+			randf_range(-gibTorque, gibTorque),
+			randf_range(-gibTorque, gibTorque)))
 		
 	queue_free()
