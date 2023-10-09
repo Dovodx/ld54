@@ -120,7 +120,7 @@ func _process(delta):
 		return
 	var timeDiff = (Time.get_ticks_usec() - lastPhysicsProcessTime) / 1000000.0
 	var lerpWeight = timeDiff / (1.0 / Engine.physics_ticks_per_second)
-	campivot.global_position = lastTwoPositions[0].lerp(lastTwoPositions[1], lerpWeight)
+	campivot.global_position = lastTwoPositions[0].lerp(global_position, lerpWeight)
 	radar.queue_redraw()
 
 func is_on_floor():

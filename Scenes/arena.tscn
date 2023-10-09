@@ -181,7 +181,7 @@ libraries = {
 
 [node name="level up text timer" type="Timer" parent="player"]
 process_callback = 0
-wait_time = 2.0
+wait_time = 4.0
 one_shot = true
 
 [node name="hurt sound" type="AudioStreamPlayer" parent="player"]

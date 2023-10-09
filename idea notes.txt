@@ -23,7 +23,7 @@ todos:
     ✔volume control
 -custom game icon
 ✔hud text when leveling up
--make sure level 4 works
+✔make sure level 4 works
 ✔level up sound
 ✔badass rock music
 ✔crunchy punchy sound effects
@@ -79,6 +79,5 @@ dream on lmao
         -speed
         -armor
         -buff certain weapon types
-        -regen ammo
         -temporarily move out of limited space (not insta-die?)
 
